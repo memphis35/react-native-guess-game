@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
         height: 260,
         paddingTop: 50,
         paddingHorizontal: 24,
-        backgroundColor: "#1d1a2f",
-        borderBottomWidth: 3,
     },
     title: {
         color: "#ffffff",
