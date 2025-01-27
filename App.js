@@ -1,10 +1,12 @@
 import { View, StyleSheet } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import StartGameScreen from "./screens/StartGameScreen";
 
 export default function App() {
     return (
         <View style={styles.wrapper}>
             <StartGameScreen />
+            <StatusBar barStyle="light-content" />
         </View>
     );
 }
@@ -12,8 +14,6 @@ export default function App() {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#1d1a2f",
     },
 });

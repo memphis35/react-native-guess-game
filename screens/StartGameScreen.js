@@ -1,12 +1,10 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import { useState } from "react";
 import Button from "../components/Button";
 
 function StartGameScreen() {
-    const [number, setNumber] = useState(0);
     return (
         <View style={styles.wrapper}>
-            <Text>Start a new game</Text>
+            <Text style={styles.title}>Start a new game</Text>
             <TextInput placeholder="00" maxLength={2} style={styles.numberInput} />
             <View style={styles.buttons}>
                 <Button>Cancel</Button>
@@ -20,13 +18,24 @@ export default StartGameScreen;
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 200,
-        alignItems: "center",
+        marginTop: 240,
+        backgroundColor: "#965fd4",
+        paddingHorizontal: 100,
+        paddingVertical: 24,
+        alignItems: "stretch",
         gap: 10,
+        alignSelf: "center",
+    },
+    title: {
+        textAlign: "center",
+        textTransform: "uppercase",
+        color: "#1d1a2f",
+        fontSize: 20,
     },
     numberInput: {
-        width: 200,
         height: 150,
+        backgroundColor: "#8bd450",
+        color: "#3f6d4e",
         fontSize: 110,
         textAlign: "center",
         borderWidth: 2,
