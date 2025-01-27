@@ -1,9 +1,10 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
 
 function StartGameScreen(props) {
     return (
-        <View style={styles.wrapper}>
+        <LinearGradient style={styles.wrapper} colors={["#3f2857", "#965fd4", "#3f2857"]}>
             <Text style={styles.title}>Start a new game</Text>
             <TextInput
                 placeholder="00"
@@ -21,7 +22,7 @@ function StartGameScreen(props) {
                     <Button onPress={props.onConfirm}>Confirm</Button>
                 </View>
             </View>
-        </View>
+        </LinearGradient>
     );
 }
 
@@ -39,8 +40,11 @@ const styles = StyleSheet.create({
     title: {
         textAlign: "center",
         textTransform: "uppercase",
-        color: "#1d1a2f",
+        color: "#8bd450",
         fontSize: 20,
+        textShadowOffset: 2,
+        textShadowRadius: 4,
+        textShadowColor: "#ffffff",
     },
     numberInput: {
         height: 150,
