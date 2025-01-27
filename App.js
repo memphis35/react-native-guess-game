@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import StartGameScreen from "./screens/StartGameScreen";
+import GameHeader from "./screens/GameHeader";
 
 export default function App() {
     const [number, setNumber] = useState(0);
@@ -21,6 +22,7 @@ export default function App() {
 
     return (
         <View style={styles.wrapper}>
+            <GameHeader />
             <StartGameScreen
                 onEnter={enterNumberHandle}
                 onConfirm={confirmNumberHandle}
