@@ -2,24 +2,51 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
 
-function StartGameScreen(props) {
+function StartGameScreen({ number, setNumber, startGame }) {
+    const onEnterNumber = (number) => {
+        setNumber(number);
+        console.log("Enter number: ", number);
+    };
+
+    const onConfirmNumber = () => {
+        console.log("Confirming a number: ", number);
+        const num = Number.parseInt(number);
+        console.log(num);
+        if (Number.isNaN(num) || num < 1 || num > 99) {
+            Alert.alert("Invalid number", "Entered  number has to be in range of 1-99", [
+                {
+                    text: "Gotcha!",
+                    style: "destructive",
+                    onPress: () => setNumber(null),
+                },
+            ]);
+        }
+        console.log("Submit a number", number);
+        startGame();
+    };
+
+    const onResetNumber = () => {
+        setNumber(null);
+        console.log("Reset number: ", number);
+    };
+
     return (
-        <LinearGradient style={styles.wrapper} colors={["#3f2857", "#965fd4", "#3f2857"]}>
+        <LinearGradient style={styles.wrapper} colors={["#965fd4", "#3f2857", "#965fd4"]}>
             <Text style={styles.title}>Start a new game</Text>
             <TextInput
                 placeholder="00"
                 maxLength={2}
                 style={styles.numberInput}
                 keyboardType="number-pad"
-                value={props.number}
-                onChangeText={(number) => props.onEnter(number)}
+                value={number}
+                onChangeText={onEnterNumber}
             />
             <View style={styles.buttons}>
                 <View style={styles.buttonWrapper}>
-                    <Button onPress={props.onReset}>Reset</Button>
+                    <Button onPress={onResetNumber}>Reset</Button>
                 </View>
                 <View style={styles.buttonWrapper}>
-                    <Button onPress={props.onConfirm}>Confirm</Button>
+                    <Button onPress={onConfirmNumber}>Confirm</Button>
                 </View>
             </View>
         </LinearGradient>
@@ -30,7 +57,7 @@ export default StartGameScreen;
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: "#965fd4",
+        flex: 0.5,
         paddingHorizontal: 100,
         paddingVertical: 24,
         alignItems: "stretch",

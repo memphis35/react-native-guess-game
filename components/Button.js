@@ -28,12 +28,10 @@ const styles = StyleSheet.create({
     },
     pressed: {
         backgroundColor: "#d3290f",
+        borderWidth: 2,
         borderColor: "#1d1a2f",
         borderRadius: 4,
         transform: [
-            {
-                scale: 1.2,
-            },
             {
                 rotateY: "180deg",
             },

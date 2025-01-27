@@ -1,23 +1,30 @@
-import { View, ImageBackground, StyleSheet } from "react-native";
+import { View, ImageBackground, Alert, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import StartGameScreen from "./screens/StartGameScreen";
+
 import GameHeader from "./screens/GameHeader";
+import StartGameScreen from "./screens/StartGameScreen";
+import GameScreen from "./screens/GameScreen";
+import GameOverScreen from "./screens/GameOverScreen";
 
 export default function App() {
-    const [number, setNumber] = useState(0);
+    const [stage, setStage] = useState("pre");
+    const [number, setNumber] = useState();
 
-    const enterNumberHandle = (number) => {
-        setNumber(number);
-        console.log("Enter number: ", number);
+    const onSwitchStage = () => {
+        if ("pre" === stage) {
+            setStage("during");
+        } else if ("during" === stage) {
+            setStage("post");
+        } else {
+            setStage("pre");
+        }
     };
 
-    const confirmNumberHandle = (number) => {
-        console.log("Submit a number");
-    };
-    const resetNumberHandle = () => {
-        setNumber(null);
-        console.log("Reset number: ", number);
+    const stages = {
+        pre: <StartGameScreen style={styles.screen} number={number} setNumber={setNumber} startGame={onSwitchStage} />,
+        during: <GameScreen number={number} finishGame={onSwitchStage} />,
+        post: <GameOverScreen resetGame={onSwitchStage} />,
     };
 
     return (
@@ -29,12 +36,7 @@ export default function App() {
                 imageStyle={styles.image}
             >
                 <GameHeader />
-                <StartGameScreen
-                    onEnter={enterNumberHandle}
-                    onConfirm={confirmNumberHandle}
-                    onReset={resetNumberHandle}
-                    number={number}
-                />
+                {stages[stage]}
                 <StatusBar barStyle="light-content" />
             </ImageBackground>
         </View>
