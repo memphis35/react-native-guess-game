@@ -1,14 +1,25 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import Button from "../components/Button";
 
-function StartGameScreen() {
+function StartGameScreen(props) {
     return (
         <View style={styles.wrapper}>
             <Text style={styles.title}>Start a new game</Text>
-            <TextInput placeholder="00" maxLength={2} style={styles.numberInput} />
+            <TextInput
+                placeholder="00"
+                maxLength={2}
+                style={styles.numberInput}
+                keyboardType="number-pad"
+                value={props.number}
+                onChangeText={(number) => props.onEnter(number)}
+            />
             <View style={styles.buttons}>
-                <Button>Cancel</Button>
-                <Button>Confirm</Button>
+                <View style={styles.buttonWrapper}>
+                    <Button onPress={props.onReset}>Reset</Button>
+                </View>
+                <View style={styles.buttonWrapper}>
+                    <Button onPress={props.onConfirm}>Confirm</Button>
+                </View>
             </View>
         </View>
     );
@@ -46,5 +57,9 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
+        gap: 10,
+    },
+    buttonWrapper: {
+        flex: 1,
     },
 });

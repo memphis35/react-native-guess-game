@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 
-function Button({ children }) {
+function Button(props) {
     return (
-        <View style={styles.wrapper}>
-            <Text style={styles.title}>{children}</Text>
+        <View>
+            <Pressable onPress={props.onPress} style={({ pressed }) => (pressed ? styles.pressed : styles.wrapper)}>
+                <Text style={styles.title}>{props.children}</Text>
+            </Pressable>
         </View>
     );
 }
@@ -13,14 +15,28 @@ export default Button;
 const styles = StyleSheet.create({
     wrapper: {
         borderWidth: 2,
-        borderColor: "#000000",
+        borderColor: "#1d1a2f",
         borderRadius: 4,
-        paddingHorizontal: 8,
-        paddingVertical: 8,
         backgroundColor: "#8bd450",
     },
     title: {
         color: "#3f6d4e",
         textTransform: "uppercase",
+        textAlign: "center",
+        paddingHorizontal: 8,
+        paddingVertical: 8,
+    },
+    pressed: {
+        backgroundColor: "#d3290f",
+        borderColor: "#1d1a2f",
+        borderRadius: 4,
+        transform: [
+            {
+                scale: 1.2,
+            },
+            {
+                rotateY: "180deg",
+            },
+        ],
     },
 });
