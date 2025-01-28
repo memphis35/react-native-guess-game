@@ -5,13 +5,10 @@ import Button from "../components/Button";
 function StartGameScreen({ number, setNumber, startGame }) {
     const onEnterNumber = (number) => {
         setNumber(number);
-        console.log("Enter number: ", number);
     };
 
     const onConfirmNumber = () => {
-        console.log("Confirming a number: ", number);
         const num = Number.parseInt(number);
-        console.log(num);
         if (Number.isNaN(num) || num < 1 || num > 99) {
             Alert.alert("Invalid number", "Entered  number has to be in range of 1-99", [
                 {
@@ -21,13 +18,11 @@ function StartGameScreen({ number, setNumber, startGame }) {
                 },
             ]);
         }
-        console.log("Submit a number", number);
         startGame();
     };
 
     const onResetNumber = () => {
         setNumber(null);
-        console.log("Reset number: ", number);
     };
 
     return (

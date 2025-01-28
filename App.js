@@ -23,7 +23,7 @@ export default function App() {
 
     const stages = {
         pre: <StartGameScreen style={styles.screen} number={number} setNumber={setNumber} startGame={onSwitchStage} />,
-        during: <GameScreen number={number} finishGame={onSwitchStage} />,
+        during: <GameScreen number={Number.parseInt(number)} finishGame={onSwitchStage} />,
         post: <GameOverScreen resetGame={onSwitchStage} />,
     };
 

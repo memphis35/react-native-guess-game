@@ -22,9 +22,7 @@ function GameHeader() {
     const [ind, setInd] = useState(0);
 
     const switchPrototype = () => {
-        console.log("Switching prototype, current index: ", ind);
         const nextIndex = ind >= prototypes.length - 1 ? 0 : ind + 1;
-        console.log("Next index: ", nextIndex, prototypes.length);
         setInd(nextIndex);
     };
 

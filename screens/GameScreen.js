@@ -1,29 +1,49 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Alert, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 
 import Button from "../components/Button";
 
 function GameScreen(props) {
-    const [guess, setGuess] = useState(50);
+    const [guessLimits, setGuessLimits] = useState({ lower: 0, higher: 99 });
 
     const onChangeGuess = (prediction) => {
-        const nextGuess = Math.ceil(prediction === "less" ? guess / 2 : guess * 2);
-        setGuess(nextGuess);
-        console.log("Next guess is: ", nextGuess);
+        const guess = Math.ceil((guessLimits.higher + guessLimits.lower) / 2);
+        const isPlayerCheating =
+            (prediction === "correct" && props.number != guess) ||
+            (prediction === "less" && props.number >= guess) ||
+            (prediction === "more" && props.number <= guess);
+        if (prediction === "correct" && props.number === guess) {
+            props.finishGame();
+        } else if (isPlayerCheating) {
+            Alert.alert("Incorrect input", "Shouldn't you cheat, Idiot Sindji?", [
+                {
+                    text: "I'm sorry",
+                    style: "destructive",
+                },
+            ]);
+        } else if (prediction === "correct" && props.number === guess) {
+        } else {
+            const isLowerThanExpected = prediction === "less";
+            const nextGuessLimits = {
+                lower: isLowerThanExpected ? guessLimits.lower : guess,
+                higher: isLowerThanExpected ? guess : guessLimits.higher,
+            };
+            setGuessLimits(nextGuessLimits);
+        }
     };
 
     return (
         <LinearGradient style={styles.gradient} colors={["#965fd4", "#3f2857", "#965fd4"]}>
             <View style={styles.wrapper}>
                 <Text style={styles.promptText}>Prototype thinks you guessed: </Text>
-                <Text style={styles.promptNumber}>{guess}</Text>
+                <Text style={styles.promptNumber}>{Math.ceil((guessLimits.higher + guessLimits.lower) / 2)}</Text>
                 <View style={styles.buttons}>
                     <View style={{ flex: 0.7 }}>
                         <Button onPress={() => onChangeGuess("less")}>Less</Button>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <Button onPress={props.finishGame}>Correct</Button>
+                        <Button onPress={() => onChangeGuess("correct")}>Correct</Button>
                     </View>
                     <View style={{ flex: 0.7 }}>
                         <Button onPress={() => onChangeGuess("more")}>More</Button>
