@@ -46,9 +46,8 @@ export default GameHeader;
 
 const styles = StyleSheet.create({
     wrapper: {
-        height: 260,
-        paddingTop: 50,
         paddingHorizontal: 24,
+        paddingBottom: 24,
     },
     title: {
         color: "#ffffff",

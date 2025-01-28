@@ -1,4 +1,4 @@
-import { View, ImageBackground, Alert, StyleSheet } from "react-native";
+import { View, ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 
@@ -35,9 +35,11 @@ export default function App() {
                 style={styles.wrapper}
                 imageStyle={styles.image}
             >
-                <GameHeader />
-                {stages[stage]}
-                <StatusBar barStyle="light-content" />
+                <SafeAreaView style={{ flex: 1 }}>
+                    <GameHeader />
+                    {stages[stage]}
+                    <StatusBar barStyle="light-content" />
+                </SafeAreaView>
             </ImageBackground>
         </View>
     );
