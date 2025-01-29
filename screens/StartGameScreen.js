@@ -1,31 +1,36 @@
 import { View, Text, TextInput, Alert, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
 import Button from "../components/Button";
 
 import Colors from "../constants/colors";
 
-function StartGameScreen({ number, setNumber, startGame }) {
-    const onEnterNumber = (number) => {
-        setNumber(number);
+function StartGameScreen({ gameStats, setGameStats }) {
+    const [number, setNumber] = useState(null);
+
+    const onEnterNumber = (number) => setNumber(number);
+    const onClearNumber = () => setNumber(null);
+
+    const startGame = (number) => {
+        setGameStats((current) => {
+            return { ...current, stage: "during", number };
+        });
     };
 
     const onConfirmNumber = () => {
         const num = Number.parseInt(number);
+        console.log(number, num);
         if (Number.isNaN(num) || num < 1 || num > 99) {
             Alert.alert("Invalid number", "Entered  number has to be in range of 1-99", [
                 {
                     text: "Gotcha!",
                     style: "destructive",
-                    onPress: () => setNumber(null),
+                    onPress: onClearNumber,
                 },
             ]);
         } else {
-            startGame();
+            startGame(num);
         }
-    };
-
-    const onResetNumber = () => {
-        setNumber(null);
     };
 
     return (
@@ -36,12 +41,12 @@ function StartGameScreen({ number, setNumber, startGame }) {
                 maxLength={2}
                 style={styles.numberInput}
                 keyboardType="number-pad"
-                value={number}
+                value={gameStats.number}
                 onChangeText={onEnterNumber}
             />
             <View style={styles.buttons}>
                 <View style={styles.buttonWrapper}>
-                    <Button onPress={onResetNumber}>Reset</Button>
+                    <Button onPress={onClearNumber}>Reset</Button>
                 </View>
                 <View style={styles.buttonWrapper}>
                     <Button onPress={onConfirmNumber}>Confirm</Button>

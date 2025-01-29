@@ -11,8 +11,11 @@ import GameScreen from "./screens/GameScreen";
 import GameOverScreen from "./screens/GameOverScreen";
 
 export default function App() {
-    const [stage, setStage] = useState("pre");
-    const [number, setNumber] = useState();
+    const [gameStats, setGameStats] = useState({
+        stage: "pre",
+        number: null,
+        count: 0,
+    });
 
     const [fontsLoaded] = useFonts({
         gemunu: require("./assets/fonts/GemunuLibre-Regular.ttf"),
@@ -24,20 +27,25 @@ export default function App() {
     }
 
     const onSwitchStage = () => {
-        if ("pre" === stage) {
-            setStage("during");
-        } else if ("during" === stage) {
-            setStage("post");
+        if (gameStats.stage === "pre") {
+            setGameStats((currentStats) => {
+                return { ...currentStats, stage: "during" };
+            });
+        } else if (gameStats.stage === "during") {
+            setGameStats((currentStats) => {
+                return { ...currentStats, stage: "post" };
+            });
         } else {
-            setStage("pre");
-            setNumber(null);
+            setGameStats((currentStats) => {
+                return { ...currentStats, stage: "post", number: null };
+            });
         }
     };
 
     const stages = {
-        pre: <StartGameScreen style={styles.screen} number={number} setNumber={setNumber} startGame={onSwitchStage} />,
-        during: <GameScreen number={Number.parseInt(number)} finishGame={onSwitchStage} />,
-        post: <GameOverScreen resetGame={onSwitchStage} number={number} />,
+        pre: <StartGameScreen gameStats={gameStats} setGameStats={setGameStats} />,
+        during: <GameScreen gameStats={gameStats} setGameStats={setGameStats} />,
+        post: <GameOverScreen gameStats={gameStats} setGameStats={setGameStats} />,
     };
 
     return (
@@ -50,7 +58,7 @@ export default function App() {
             >
                 <SafeAreaView style={{ flex: 1 }}>
                     <GameHeader />
-                    {stages[stage]}
+                    {stages[gameStats.stage]}
                     <StatusBar barStyle="light-content" />
                 </SafeAreaView>
             </ImageBackground>
