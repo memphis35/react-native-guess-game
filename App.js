@@ -30,13 +30,14 @@ export default function App() {
             setStage("post");
         } else {
             setStage("pre");
+            setNumber(null);
         }
     };
 
     const stages = {
         pre: <StartGameScreen style={styles.screen} number={number} setNumber={setNumber} startGame={onSwitchStage} />,
         during: <GameScreen number={Number.parseInt(number)} finishGame={onSwitchStage} />,
-        post: <GameOverScreen resetGame={onSwitchStage} />,
+        post: <GameOverScreen resetGame={onSwitchStage} number={number} />,
     };
 
     return (

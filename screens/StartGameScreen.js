@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, Alert, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
 
@@ -19,8 +19,9 @@ function StartGameScreen({ number, setNumber, startGame }) {
                     onPress: () => setNumber(null),
                 },
             ]);
+        } else {
+            startGame();
         }
-        startGame();
     };
 
     const onResetNumber = () => {
