@@ -1,7 +1,10 @@
 import { View, ImageBackground, SafeAreaView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
+import Colors from "./constants/colors";
 import GameHeader from "./screens/GameHeader";
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
@@ -10,6 +13,15 @@ import GameOverScreen from "./screens/GameOverScreen";
 export default function App() {
     const [stage, setStage] = useState("pre");
     const [number, setNumber] = useState();
+
+    const [fontsLoaded] = useFonts({
+        gemunu: require("./assets/fonts/GemunuLibre-Regular.ttf"),
+        "gemunu-bold": require("./assets/fonts/GemunuLibre-Bold.ttf"),
+    });
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
 
     const onSwitchStage = () => {
         if ("pre" === stage) {
@@ -48,7 +60,7 @@ export default function App() {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "#1d1a2f",
+        backgroundColor: Colors.dark,
     },
     image: {
         opacity: 0.12,

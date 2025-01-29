@@ -2,6 +2,8 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "../components/Button";
 
+import Colors from "../constants/colors";
+
 function StartGameScreen({ number, setNumber, startGame }) {
     const onEnterNumber = (number) => {
         setNumber(number);
@@ -26,8 +28,8 @@ function StartGameScreen({ number, setNumber, startGame }) {
     };
 
     return (
-        <LinearGradient style={styles.wrapper} colors={["#965fd4", "#3f2857", "#965fd4"]}>
-            <Text style={styles.title}>Start a new game</Text>
+        <LinearGradient style={styles.wrapper} colors={[Colors.violet, Colors.deepViolet, Colors.violet]}>
+            <Text style={styles.title}>Enter a number:</Text>
             <TextInput
                 placeholder="00"
                 maxLength={2}
@@ -58,20 +60,22 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         gap: 10,
         alignSelf: "center",
-        borderColor: "#1d1a2f",
+        borderColor: Colors.dark,
         borderTopWidth: 3,
         borderBottomWidth: 3,
     },
     title: {
+        fontFamily: "gemunu-bold",
         textAlign: "center",
         textTransform: "uppercase",
-        color: "#1d1a2f",
+        color: Colors.dark,
         fontSize: 20,
     },
     numberInput: {
         height: 150,
-        backgroundColor: "#8bd450",
-        color: "#3f6d4e",
+        backgroundColor: Colors.green,
+        color: Colors.paleGreen,
+        fontFamily: "gemunu",
         fontSize: 110,
         textAlign: "center",
         borderWidth: 2,

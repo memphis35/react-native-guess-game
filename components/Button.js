@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#8bd450",
     },
     title: {
+        fontFamily: "gemunu-bold",
+        fontSize: 18,
         color: "#3f6d4e",
         textTransform: "uppercase",
         textAlign: "center",

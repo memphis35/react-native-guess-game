@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useState } from "react";
+import Colors from "../constants/colors";
 
 function GameHeader() {
     const prototypes = [
@@ -50,14 +51,16 @@ const styles = StyleSheet.create({
         paddingBottom: 24,
     },
     title: {
-        color: "#ffffff",
+        fontFamily: "gemunu-bold",
+        fontSize: 24,
+        color: Colors.light,
         textTransform: "uppercase",
     },
     bottomTitle: {
+        fontFamily: "gemunu",
         textAlign: "right",
-        color: "#ffffff",
+        color: Colors.light,
         textTransform: "uppercase",
-        fontSize: 12,
     },
     headerDashboard: {
         flexDirection: "row",
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: 120,
         height: 120,
-        borderColor: "#ffffff",
+        borderColor: Colors.light,
         borderWidth: 2,
         borderRadius: 4,
     },
