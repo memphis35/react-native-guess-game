@@ -59,9 +59,9 @@ export default function App() {
                 <SafeAreaView style={{ flex: 1 }}>
                     <GameHeader />
                     {stages[gameStats.stage]}
-                    <StatusBar barStyle="light-content" />
                 </SafeAreaView>
             </ImageBackground>
+            <StatusBar barStyle="light-content" />
         </View>
     );
 }

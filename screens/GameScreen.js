@@ -1,4 +1,4 @@
-import { View, Text, Alert, StyleSheet } from "react-native";
+import { View, Text, Alert, FlatList, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,11 +14,7 @@ function GameScreen({ gameStats, setGameStats }) {
         ignored: [],
         count: 0,
     });
-
-    const generateGuess = (higher, lower, ignored) => {
-        const guess = Math.ceil(Math.random() * (higher - lower)) + lower;
-        return !ignored.includes(guess) ? guess : generateGuess(higher, lower, ignored);
-    };
+    const [logs, setLogs] = useState([]);
 
     useEffect(() => {
         console.log("Guessed number", gameStats.number, typeof gameStats.number);
@@ -29,19 +25,38 @@ function GameScreen({ gameStats, setGameStats }) {
         }
     }, [guessStats.guess]);
 
+    const checkIfPlayerCheats = (prediction, guess, number) => {
+        const isLyingAboutLess = prediction === "less" && number >= guess;
+        const isLyingAboutMore = prediction === "more" && number <= guess;
+        return isLyingAboutLess || isLyingAboutMore;
+    };
+
+    const generateGuess = (higher, lower, ignored) => {
+        const guess = Math.ceil(Math.random() * (higher - lower)) + lower;
+        return !ignored.includes(guess) ? guess : generateGuess(higher, lower, ignored);
+    };
+
+    const alert = () => {
+        Alert.alert("Incorrect input", "Shouldn't you cheat, Idiot Sindji?", [
+            {
+                text: "I'm sorry",
+                style: "destructive",
+            },
+        ]);
+    };
+
+    const addLog = (text) => {
+        setLogs((prevLogs) => [{ key: prevLogs.length + 1, text }, ...prevLogs]);
+    };
+
+    const renderLog = (itemWrapper) => <Text style={styles.consoleText}>{"ai_prompt> " + itemWrapper.item.text}</Text>;
+
     const onChangeGuess = (prediction) => {
         const guess = guessStats.guess;
-
-        const isLyingAboutLess = prediction === "less" && gameStats.number >= guess;
-        const isLyingAboutMore = prediction === "more" && gameStats.number <= guess;
-        const isPlayerCheating = isLyingAboutLess || isLyingAboutMore;
+        const isPlayerCheating = checkIfPlayerCheats(prediction, guess, gameStats.number);
         if (isPlayerCheating) {
-            Alert.alert("Incorrect input", "Shouldn't you cheat, Idiot Sindji?", [
-                {
-                    text: "I'm sorry",
-                    style: "destructive",
-                },
-            ]);
+            alert();
+            addLog("cheat attempt has been detected");
         } else {
             const isLowerThanExpected = prediction === "less";
             const next = {
@@ -54,28 +69,32 @@ function GameScreen({ gameStats, setGameStats }) {
             next.guess = generateGuess(next.higher, next.lower, next.ignored);
             console.log(next);
             setGuessStats(next);
+            addLog(`lower limit: ${next.lower}, upper limit: ${next.higher}`);
         }
     };
 
     return (
-        <LinearGradient style={styles.gradient} colors={[Colors.violet, "#3f2857", Colors.violet]}>
-            <View style={styles.wrapper}>
-                <Text style={styles.promptText}>Prototype thinks you guessed: </Text>
-                <Text style={styles.promptNumber}>{guessStats.guess}</Text>
-                <View style={styles.buttons}>
-                    <View style={{ flex: 1 }}>
-                        <Button onPress={() => onChangeGuess("less")}>
-                            <Ionicons name="trending-down" size={28} />
-                        </Button>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                        <Button onPress={() => onChangeGuess("more")}>
-                            <Ionicons name="trending-up" size={28} />
-                        </Button>
+        <>
+            <LinearGradient style={styles.gradient} colors={[Colors.violet, "#3f2857", Colors.violet]}>
+                <View style={styles.wrapper}>
+                    <Text style={styles.promptText}>Prototype thinks you guessed: </Text>
+                    <Text style={styles.promptNumber}>{guessStats.guess}</Text>
+                    <View style={styles.buttons}>
+                        <View style={{ flex: 1 }}>
+                            <Button onPress={() => onChangeGuess("less")}>
+                                <Ionicons name="trending-down" size={28} />
+                            </Button>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Button onPress={() => onChangeGuess("more")}>
+                                <Ionicons name="trending-up" size={28} />
+                            </Button>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </LinearGradient>
+            </LinearGradient>
+            <FlatList style={styles.console} data={logs} renderItem={renderLog} />
+        </>
     );
 }
 
@@ -83,7 +102,7 @@ export default GameScreen;
 
 const styles = StyleSheet.create({
     gradient: {
-        flex: 0.5,
+        flex: 1,
         borderColor: Colors.dark,
         borderTopWidth: 3,
         borderBottomWidth: 3,
@@ -109,5 +128,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         gap: 12,
+    },
+    console: {
+        flex: 1,
+        gap: 4,
+        paddingVertical: 12,
+        paddingHorizontal: 4,
+    },
+    consoleText: {
+        color: "white",
+        fontFamily: "gemunu",
+        fontSize: 24,
     },
 });
